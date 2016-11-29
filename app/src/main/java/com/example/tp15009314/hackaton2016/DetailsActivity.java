@@ -23,16 +23,16 @@ public class DetailsActivity extends AppCompatActivity {
         title.setText(evt.getTitre());
         TextView desc = (TextView) findViewById(R.id.event_desc);
         desc.setText(evt.getDescription());
-        // TextView adresse = (TextView) findViewById(R.id.event_adresse);
-        // adresse.setText(evt.getAdresse());
-       // TextView horaires = (TextView) findViewById(R.id.event_horaires);
-       // horaires.setText(evt.getHoraires());
-      // TextView scolaire = (TextView) findViewById(R.id.event_scolaire);
-      // scolaire.setText(evt.getScolaire());
+        TextView adresse = (TextView) findViewById(R.id.event_adresse);
+        adresse.setText(evt.getAdresse());
+        TextView horaires = (TextView) findViewById(R.id.event_horaires);
+        horaires.setText(evt.getHoraires());
+        TextView scolaire = (TextView) findViewById(R.id.event_scolaire);
+        scolaire.setText(evt.getScolaire());
         TextView themes = (TextView) findViewById(R.id.event_themes);
         themes.setText(evt.getThemes());
 
-
+/*
         ArrayList<String> listItem = new ArrayList<>();
         listItem.add("yolo");
         listItem.add("blabla");
