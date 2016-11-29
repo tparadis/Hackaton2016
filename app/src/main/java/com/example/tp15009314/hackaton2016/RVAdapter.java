@@ -12,9 +12,9 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolder>{
 
-    List<Evenement> evts;
+    List<Event> evts;
 
-    public RVAdapter(List<Evenement> evts) {
+    public RVAdapter(List<Event> evts) {
         this.evts = evts;
     }
 
@@ -27,8 +27,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
 
     @Override
     public void onBindViewHolder(EvenementViewHolder holder, int position) {
-        holder.eventName.setText(evts.get(position).name);
-        holder.eventAge.setText(evts.get(position).age);
+        holder.eventName.setText(evts.get(position).getTitre());
+        holder.eventAge.setText(evts.get(position).getAdresse());
     }
 
     @Override

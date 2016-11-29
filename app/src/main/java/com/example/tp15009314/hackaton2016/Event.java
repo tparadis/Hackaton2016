@@ -28,6 +28,14 @@ public class Event {
         return fields;
     }
 
+    public String getTitre() {
+        return (String) fields.get("titre_fr");
+    }
+
+    public String getAdresse() {
+        return (String) fields.get("adresse");
+    }
+
     public String getRecordid(){
         return recordid;
     }

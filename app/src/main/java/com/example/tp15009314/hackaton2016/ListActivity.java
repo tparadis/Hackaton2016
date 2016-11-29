@@ -7,23 +7,55 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
 
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Evenement> persons;
+    private List<Event> events;
 
     // This method creates an ArrayList that has three Person objects
 // Checkout the project associated with this tutorial on Github if
 // you want to use the same images.
-    private void initializeData() {
-        persons = new ArrayList<>();
-        persons.add(new Evenement("Emma Wilson", "23 years old"));
-        persons.add(new Evenement("Lavery Maiss", "25 years old"));
-        persons.add(new Evenement("Lillie Watts", "35 years old"));
+    private List<Event> initializeData() {
+      final List<Event> events2 = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("");
+
+        myRef.limitToFirst(15).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    Map<String, Object> map = (Map<String, Object>) child.getValue();
+                    String datasetid = (String) map.get("datasetid");
+                    Map<String, String> fields = (Map<String, String>) map.get("fields");
+                    String recordid = (String) map.get("recordid");
+                    Event event = new Event(datasetid, fields, recordid);
+                    events2.add(event);
+                    System.out.println(datasetid);
+                    System.out.println(fields.toString());
+                    System.out.println("dkqzioduhsude" + recordid);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return events2;
     }
 
 
@@ -35,8 +67,9 @@ public class ListActivity extends AppCompatActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        initializeData();
-        RVAdapter adapter = new RVAdapter(persons);
+        events = initializeData();
+        System.out.println("Size" + events.size());
+        RVAdapter adapter = new RVAdapter(events);
         mRecyclerView.setAdapter(adapter);
     }
 
