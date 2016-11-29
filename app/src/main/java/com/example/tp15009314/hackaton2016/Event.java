@@ -2,9 +2,6 @@ package com.example.tp15009314.hackaton2016;
 
 import java.util.Map;
 
-/**
- * Created by greg on 29/11/16.
- */
 
 public class Event {
 
@@ -39,9 +36,11 @@ public class Event {
     }
 
     public String getHoraires() {
-        return (String) fields.get("horaires_detailles_fr:");
+        return (String) fields.get("horaires_detailles_fr");
     }
-
+    public String getDates() {
+        return (String) fields.get("date_debut");
+    }
     public String getTelephone() {
         return (String) fields.get("telephone_du_lieu");
     }

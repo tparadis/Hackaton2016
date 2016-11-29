@@ -1,6 +1,6 @@
 package com.example.tp15009314.hackaton2016;
 
-import android.content.Intent;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class ListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;

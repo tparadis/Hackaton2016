@@ -29,7 +29,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
     @Override
     public void onBindViewHolder(EvenementViewHolder holder,final int position) {
         holder.eventName.setText(evts.get(position).getTitre());
-        holder.eventAge.setText(evts.get(position).getAdresse());
+        holder.eventAdresse.setText(evts.get(position).getAdresse());
+        holder.eventDate.setText(evts.get(position).getDates());
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,14 +54,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
     public static class EvenementViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView eventName;
-        TextView eventAge;
+        TextView eventDate;
+        TextView eventAdresse;
         ImageView eventPhoto;
 
         EvenementViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             eventName = (TextView)itemView.findViewById(R.id.event_name);
-            eventAge = (TextView)itemView.findViewById(R.id.event_age);
+            eventDate = (TextView)itemView.findViewById(R.id.event_datelist);
+            eventAdresse = (TextView)itemView.findViewById(R.id.event_adresselist);
             eventPhoto = (ImageView)itemView.findViewById(R.id.event_photo);
         }
     }
