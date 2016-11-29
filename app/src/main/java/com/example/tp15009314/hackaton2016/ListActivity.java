@@ -17,21 +17,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
 public class ListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
 
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("");
+
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Event> events;
+    private List<Event> events = new ArrayList<Event>();
 
-    // This method creates an ArrayList that has three Person objects
-// Checkout the project associated with this tutorial on Github if
-// you want to use the same images.
-    private List<Event> initializeData() {
-      final List<Event> events2 = new ArrayList<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("");
+    private int last = 0;
 
-        myRef.limitToFirst(15).addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list);
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv);
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        loadMore();
+        System.out.println("Size" + events.size());
+        RVAdapter adapter = new RVAdapter(events);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    public void AfficherDetails(View view) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+
+    public void loadMore() {
+
+        myRef.startAt(null, Integer.toString(last)).limitToFirst(15).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
@@ -40,10 +61,13 @@ public class ListActivity extends AppCompatActivity {
                     Map<String, String> fields = (Map<String, String>) map.get("fields");
                     String recordid = (String) map.get("recordid");
                     Event event = new Event(datasetid, fields, recordid);
-                    events2.add(event);
+                    events.add(event);
+                    System.out.println("\n \n \n");
+                    System.out.println(child.getRef());
                     System.out.println(datasetid);
                     System.out.println(fields.toString());
-                    System.out.println("dkqzioduhsude" + recordid);
+                    System.out.println("recordid");
+                    last++;
 
                 }
 
@@ -54,28 +78,10 @@ public class ListActivity extends AppCompatActivity {
 
             }
         });
-
-        return events2;
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
-        mRecyclerView = (RecyclerView)findViewById(R.id.rv);
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        events = initializeData();
-        System.out.println("Size" + events.size());
-        RVAdapter adapter = new RVAdapter(events);
-        mRecyclerView.setAdapter(adapter);
-    }
-
-    public void AfficherDetails(View view) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        startActivityForResult(intent, 1);
+    public void loadButton(View view) {
+        loadMore();
     }
 }
 
