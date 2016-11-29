@@ -44,11 +44,6 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(adapter);
     }
 
-    public void AfficherDetails(View view) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        startActivityForResult(intent, 1);
-    }
-
 
     public void loadMore() {
 
