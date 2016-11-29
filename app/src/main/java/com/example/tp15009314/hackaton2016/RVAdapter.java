@@ -1,5 +1,6 @@
 package com.example.tp15009314.hackaton2016;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,9 +27,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
     }
 
     @Override
-    public void onBindViewHolder(EvenementViewHolder holder, int position) {
+    public void onBindViewHolder(EvenementViewHolder holder,final int position) {
         holder.eventName.setText(evts.get(position).getTitre());
         holder.eventAge.setText(evts.get(position).getAdresse());
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra("evt",new Evenement(evts.get(position)));
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

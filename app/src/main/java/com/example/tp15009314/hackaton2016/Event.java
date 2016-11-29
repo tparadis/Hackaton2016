@@ -31,11 +31,35 @@ public class Event {
     public String getTitre() {
         return (String) fields.get("titre_fr");
     }
+    public String getDescription() {
+        return (String) fields.get("description_fr");
+    }
+    public String getThemes() {
+        return (String) fields.get("thematiques");
+    }
 
+    public String getHoraires() {
+        return (String) fields.get("horaires_detailles_fr:");
+    }
+
+    public String getTelephone() {
+        return (String) fields.get("telephone_du_lieu");
+    }
+    public String getEmail() {
+        return (String) fields.get("email");
+    }
+    public String getScolaire() {
+        return (String) fields.get("publics_concernes");
+    }
+    public String getFacebook() {
+        return (String) fields.get("liens_du_lieu");
+    }
     public String getAdresse() {
         return (String) fields.get("adresse");
     }
-
+    public String getImage(){
+        return (String) fields.get("image");
+    }
     public String getRecordid(){
         return recordid;
     }
