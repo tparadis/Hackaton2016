@@ -11,13 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.tp15009314.hackaton2016.ListActivity">
 
-    <Button
-        android:id="@+id/loadMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="loadButton"
-        />
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
