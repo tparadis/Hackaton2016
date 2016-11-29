@@ -60,9 +60,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void launchMap(View view){
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivityForResult(intent, 1);
     }
 }
