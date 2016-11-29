@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolder>{
@@ -31,6 +33,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
         holder.eventName.setText(evts.get(position).getTitre());
         holder.eventAdresse.setText(evts.get(position).getAdresse());
         holder.eventDate.setText(evts.get(position).getDates());
+       Glide.with(holder.eventPhoto.getContext()).load(evts.get(position).getImage()).override(200,200).into(holder.eventPhoto);
+
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

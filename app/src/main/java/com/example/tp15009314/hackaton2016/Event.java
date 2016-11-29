@@ -59,6 +59,9 @@ public class Event {
     public String getImage(){
         return (String) fields.get("image");
     }
+  /*  public String getLat(){
+        return  (String) (fields.get("geolocalisation")).get("0");
+    }*/
     public String getRecordid(){
         return recordid;
     }

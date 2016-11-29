@@ -1,14 +1,18 @@
 package com.example.tp15009314.hackaton2016;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -34,6 +38,8 @@ public class DetailsActivity extends AppCompatActivity {
         scolaire.setText(evt.getScolaire());
         TextView themes = (TextView) findViewById(R.id.event_themes);
         themes.setText(evt.getThemes());
+        ImageView img = (ImageView) findViewById(R.id.event_photo);
+//        Glide.with(this).load(evt.getImage()).into(img);
 
 /*
         ArrayList<String> listItem = new ArrayList<>();
