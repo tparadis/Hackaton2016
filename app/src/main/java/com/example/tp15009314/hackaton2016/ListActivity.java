@@ -45,18 +45,23 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(adapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private boolean scroll = false;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    loadMore();
+                    scroll = true;
+                } else {
+                    scroll = false;
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if(scroll && dy > 0)
+                    loadMore();
             }
         });
 
