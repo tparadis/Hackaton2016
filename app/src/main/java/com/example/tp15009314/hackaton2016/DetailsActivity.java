@@ -16,12 +16,30 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        Bundle extra = getIntent().getExtras();
+        Evenement evt =  extra.getParcelable("evt");
+
+        TextView title = (TextView) findViewById(R.id.event_titre);
+        title.setText(evt.getTitre());
+        TextView desc = (TextView) findViewById(R.id.event_desc);
+        desc.setText(evt.getDescription());
+        // TextView adresse = (TextView) findViewById(R.id.event_adresse);
+        // adresse.setText(evt.getAdresse());
+       // TextView horaires = (TextView) findViewById(R.id.event_horaires);
+       // horaires.setText(evt.getHoraires());
+      // TextView scolaire = (TextView) findViewById(R.id.event_scolaire);
+      // scolaire.setText(evt.getScolaire());
+        TextView themes = (TextView) findViewById(R.id.event_themes);
+        themes.setText(evt.getThemes());
+
+
         ArrayList<String> listItem = new ArrayList<>();
-        listItem.add("Yolo");
+        listItem.add("yolo");
         listItem.add("blabla");
         ListView listView = (ListView) findViewById(R.id.event_listView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.donnees, R.id.donnee, listItem);
         listView.setAdapter(adapter);
+
         // give adapter to ListView UI element to render
 
         /*TextView textView1 = new TextView(this.getApplicationContext());
@@ -33,6 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
         listView.addView(textView1);
         listView.addView(textView2);
         */
+
 
 
     }
