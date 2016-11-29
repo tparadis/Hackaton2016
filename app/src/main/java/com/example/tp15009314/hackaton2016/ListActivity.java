@@ -21,6 +21,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class ListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
+    private RVAdapter adapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference("");
@@ -34,14 +35,16 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
-        // use a linear layout manager
+
+        adapter = new RVAdapter(events);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        loadMore();
-        System.out.println("Size" + events.size());
-        RVAdapter adapter = new RVAdapter(events);
+
         mRecyclerView.setAdapter(adapter);
+
+        loadMore();
     }
 
 
@@ -66,6 +69,7 @@ public class ListActivity extends AppCompatActivity {
 
                 }
 
+                adapter.notifyDataSetChanged();
             }
 
             @Override
