@@ -39,7 +39,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView themes = (TextView) findViewById(R.id.event_themes);
         themes.setText(evt.getThemes());
         ImageView img = (ImageView) findViewById(R.id.event_photo);
-//        Glide.with(this).load(evt.getImage()).into(img);
+        //Glide.with(this).load(evt.getImage()).into(img);
 
 /*
         ArrayList<String> listItem = new ArrayList<>();

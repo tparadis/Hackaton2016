@@ -33,7 +33,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
         holder.eventName.setText(evts.get(position).getTitre());
         holder.eventAdresse.setText(evts.get(position).getAdresse());
         holder.eventDate.setText(evts.get(position).getDates());
-       Glide.with(holder.eventPhoto.getContext()).load(evts.get(position).getImage()).override(200,200).into(holder.eventPhoto);
+        Glide.with(holder.eventPhoto.getContext()).load(evts.get(position).getImage()).override(200,200).into(holder.eventPhoto);
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
