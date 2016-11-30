@@ -1,6 +1,7 @@
 package com.example.tp15009314.hackaton2016;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +19,14 @@ import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    private Evenement evt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
         Bundle extra = getIntent().getExtras();
-        Evenement evt =  extra.getParcelable("evt");
+        evt =  extra.getParcelable("evt");
 
         TextView title = (TextView) findViewById(R.id.event_titre);
         title.setText(evt.getTitre());
@@ -38,8 +40,13 @@ public class DetailsActivity extends AppCompatActivity {
         scolaire.setText(evt.getScolaire());
         TextView themes = (TextView) findViewById(R.id.event_themes);
         themes.setText(evt.getThemes());
-        ImageView img = (ImageView) findViewById(R.id.event_photo);
-        //Glide.with(this).load(evt.getImage()).into(img);
+        if(evt.getTelephone() != null) {
+            TextView tel = (TextView) findViewById(R.id.event_telephone);
+            tel.setText("Phone : " + evt.getTelephone());
+            tel.setTextColor(Color.BLUE);
+        }
+        ImageView img = (ImageView) findViewById(R.id.event_image);
+        Glide.with(this).load(evt.getImage()).override(500, 500).into(img);
 
 /*
         ArrayList<String> listItem = new ArrayList<>();
@@ -68,5 +75,12 @@ public class DetailsActivity extends AppCompatActivity {
     public void launchMap(View view){
         Intent intent = new Intent(this, MapsActivity.class);
         startActivityForResult(intent, 1);
+    }
+
+    public void callNumber(View view) {
+        String number = evt.getTelephone();
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:"+number));
+        startActivity(callIntent);
     }
 }

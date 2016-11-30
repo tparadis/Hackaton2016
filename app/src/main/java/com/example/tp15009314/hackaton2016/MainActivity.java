@@ -1,11 +1,13 @@
 package com.example.tp15009314.hackaton2016;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
-
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,4 +24,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ListActivity.class);
         startActivityForResult(intent, 1);
     }
+
 }

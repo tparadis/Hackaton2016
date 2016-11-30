@@ -86,7 +86,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/event_telephone" />
+                        android:id="@+id/event_telephone"
+                        android:onClick="callNumber"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -102,7 +103,7 @@
     </ScrollView>
 
     <Button
-        android:text="Button"
+        android:text="Google Map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
