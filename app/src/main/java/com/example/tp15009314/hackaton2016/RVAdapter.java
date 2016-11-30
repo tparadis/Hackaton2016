@@ -46,13 +46,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
                 intent.putExtra("evt",new Evenement(evts.get(position)));
-                System.out.println("BLABLA");
                 Map<String,String> map = (Map<String, String>) evts.get(position).getFields();
                 HashMap<String, String> hashMap =
                         (map instanceof HashMap)
                                 ? (HashMap) map
                                 : new HashMap<String, String>(map);
-                System.out.println(hashMap);
                 intent.putExtra("map", hashMap);
                 v.getContext().startActivity(intent);
             }

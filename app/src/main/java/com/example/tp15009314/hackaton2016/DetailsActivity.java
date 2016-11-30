@@ -1,6 +1,8 @@
 package com.example.tp15009314.hackaton2016;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
@@ -17,19 +19,26 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+
+import static android.R.attr.start;
+import static android.R.attr.value;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static com.example.tp15009314.hackaton2016.R.id.textView;
 
 public class DetailsActivity extends AppCompatActivity {
 
     private Evenement evt;
     HashMap<String, String> fields;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
         Bundle extra = getIntent().getExtras();
-        evt =  extra.getParcelable("evt");
+        evt = extra.getParcelable("evt");
         fields = (HashMap<String, String>) extra.getSerializable("map");
         System.out.println(fields.toString());
 
@@ -45,16 +54,18 @@ public class DetailsActivity extends AppCompatActivity {
         scolaire.setText(evt.getScolaire());
         TextView themes = (TextView) findViewById(R.id.event_themes);
         themes.setText(evt.getThemes());
-        if(evt.getTelephone() != null) {
+        if (evt.getTelephone() != null) {
             TextView tel = (TextView) findViewById(R.id.event_telephone);
             tel.setText("Phone : " + evt.getTelephone());
             tel.setTextColor(Color.BLUE);
         }
 
-       // System.out.println("INTERNET : " + evt.getInternet());
+        // System.out.println("INTERNET : " + evt.getInternet());
         TextView internet = (TextView) findViewById(R.id.event_internet);
         internet.setText(evt.getInternet());
         internet.setTextColor(Color.BLUE);
+
+        findFacebook();
 
         ImageView img = (ImageView) findViewById(R.id.event_image);
         Glide.with(this).load(evt.getImage()).override(500, 500).into(img);
@@ -80,7 +91,6 @@ public class DetailsActivity extends AppCompatActivity {
         */
 
 
-
     }
 
     public void launchMap(View view) {
@@ -93,7 +103,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void callNumber(View view) {
         String number = evt.getTelephone();
-        if(number != null) {
+        if (number != null) {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:" + number));
             startActivity(callIntent);
@@ -102,8 +112,52 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void goToTheInternet(View view) {
         String internet = evt.getInternet();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(internet));
-        startActivity(intent);
+        if (internet != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(internet));
+            startActivity(intent);
+        }
+    }
+
+
+    public void findFacebook() {
+        Iterator it = fields.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
+            String key = entry.getKey();
+            if (!key.equals("geolocalisation")) {
+                String value = entry.getValue().toString();
+                if (value.contains("facebook")) {
+                    TextView facebook = (TextView) findViewById(R.id.event_facebook);
+                    facebook.setText(value);
+                    facebook.setTextColor(Color.BLUE);
+                }
+            }
+        }
+    }
+
+    public void goToFacebook(View view) {
+        TextView textView = (TextView) view;
+        String facebook = textView.getText().toString();
+        System.out.println("FACEBOOK : " + facebook);
+        if (facebook != null && !facebook.isEmpty()) {
+
+
+            boolean sucess = true;
+            try {
+                getApplicationContext().getPackageManager().getPackageInfo("com.facebook.katana", 0);
+                System.out.println(facebook);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=" + facebook));
+                startActivity(intent);
+            } catch (PackageManager.NameNotFoundException e) {
+                sucess = false;
+                e.printStackTrace();
+            }
+
+            if (!sucess) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebook));
+                startActivity(intent);
+            }
+        }
     }
 }
