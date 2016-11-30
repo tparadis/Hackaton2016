@@ -22,6 +22,8 @@ public class Evenement implements Parcelable
     String facebook;
     String adresse;
     String image;
+    String lat;
+    String lon;
 
    public Evenement(Event event) {
         this.titre = event.getTitre();
@@ -34,6 +36,8 @@ public class Evenement implements Parcelable
         this.facebook = event.getFacebook();
         this.adresse = event.getAdresse();
         this.image = event.getImage();
+        this.lat = event.getLat();
+        this.lon = event.getLon();
     }
 
     protected Evenement(Parcel in) {
@@ -47,6 +51,8 @@ public class Evenement implements Parcelable
         facebook = in.readString();
         adresse = in.readString();
         image = in.readString();
+        lat = in.readString();
+        lon = in.readString();
     }
 
     public static final Creator<Evenement> CREATOR = new Creator<Evenement>() {
@@ -78,6 +84,8 @@ public class Evenement implements Parcelable
         dest.writeString(facebook);
         dest.writeString(adresse);
         dest.writeString(image);
+        dest.writeString(lat);
+        dest.writeString(lon);
     }
 
     public String getTitre() {
@@ -119,5 +127,9 @@ public class Evenement implements Parcelable
     public String getImage() {
         return image;
     }
+
+    public String getLat() { return  lat; }
+
+    public String getLon() { return  lon; }
 }
 

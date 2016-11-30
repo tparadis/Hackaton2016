@@ -75,16 +75,15 @@ public class ListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
                     Map<String, Object> map = (Map<String, Object>) child.getValue();
-                    String datasetid = (String) map.get("datasetid");
                     Map<String, String> fields = (Map<String, String>) map.get("fields");
-                    String recordid = (String) map.get("recordid");
-                    Event event = new Event(datasetid, fields, recordid);
+                    fields.put("0", child.child("geometry").child("coordinates").child("1").getValue().toString());
+                    fields.put("1", child.child("geometry").child("coordinates").child("0").getValue().toString());
+
+                    Event event = new Event(fields);
                     events.add(event);
-                    System.out.println("\n \n \n");
+
                     System.out.println(child.getRef());
-                    System.out.println(datasetid);
-                    System.out.println(fields.toString());
-                    System.out.println("recordid");
+
                     last++;
 
                 }
@@ -99,9 +98,6 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
-    public void loadButton(View view) {
-        loadMore();
-    }
 }
 
 

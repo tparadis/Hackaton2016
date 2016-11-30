@@ -74,6 +74,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void launchMap(View view){
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("LAT", evt.getLat());
+        intent.putExtra("LON", evt.getLon());
         startActivityForResult(intent, 1);
     }
 

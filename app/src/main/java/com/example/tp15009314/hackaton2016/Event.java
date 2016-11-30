@@ -5,20 +5,12 @@ import java.util.Map;
 
 public class Event {
 
-    private String datasetid;
     private Map<String, String> fields;
-    private String recordid;
 
     public Event(){}
 
-    public Event(String datasetid, Map<String, String> fields, String recordid){
-        this.datasetid = datasetid;
+    public Event(Map<String, String> fields){
         this.fields = fields;
-        this.recordid = recordid;
-    }
-
-    public String getDatasetid(){
-        return datasetid;
     }
 
     public Map<String, String> getFields(){
@@ -59,11 +51,7 @@ public class Event {
     public String getImage(){
         return (String) fields.get("image");
     }
-  /*  public String getLat(){
-        return  (String) (fields.get("geolocalisation")).get("0");
-    }*/
-    public String getRecordid(){
-        return recordid;
-    }
+    public String getLat() { return (String) fields.get("0"); }
+    public String getLon() { return (String) fields.get("1"); }
 
 }
