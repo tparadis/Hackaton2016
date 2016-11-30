@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -25,12 +26,15 @@ import java.util.Map;
 import static android.R.attr.start;
 import static android.R.attr.value;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static com.example.tp15009314.hackaton2016.R.id.email;
 import static com.example.tp15009314.hackaton2016.R.id.textView;
 
 public class DetailsActivity extends AppCompatActivity {
 
     private Evenement evt;
     HashMap<String, String> fields;
+    private String facebook;
+    private String mail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,8 @@ public class DetailsActivity extends AppCompatActivity {
         internet.setText(evt.getInternet());
         internet.setTextColor(Color.BLUE);
 
-        findFacebook();
+        facebook = findFacebook();
+        mail = findMail();
 
         ImageView img = (ImageView) findViewById(R.id.event_image);
         Glide.with(this).load(evt.getImage()).override(500, 500).into(img);
@@ -120,7 +125,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
-    public void findFacebook() {
+    public String findFacebook() {
         Iterator it = fields.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
@@ -128,21 +133,37 @@ public class DetailsActivity extends AppCompatActivity {
             if (!key.equals("geolocalisation")) {
                 String value = entry.getValue().toString();
                 if (value.contains("facebook")) {
-                    TextView facebook = (TextView) findViewById(R.id.event_facebook);
-                    facebook.setText(value);
-                    facebook.setTextColor(Color.BLUE);
+                    ImageButton fb = (ImageButton) findViewById(R.id.event_facebook);
+                    Glide.with(this).load(R.drawable.fb).override(1, 150).into(fb);
+                    fb.setVisibility(View.VISIBLE);
+                    return value;
                 }
             }
         }
+        return "";
     }
 
+    public String findMail() {
+        Iterator it = fields.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
+            String key = entry.getKey();
+            if (!key.equals("geolocalisation")) {
+                String value = entry.getValue().toString();
+                if (value.contains("@")) {
+                    ImageButton mail = (ImageButton) findViewById(R.id.event_mail);
+                    Glide.with(this).load(R.drawable.gmail).override(150, 150).into(mail);
+                    mail.setVisibility(View.VISIBLE);
+                    return value;
+                }
+            }
+        }
+        return "";
+    }
+
+
     public void goToFacebook(View view) {
-        TextView textView = (TextView) view;
-        String facebook = textView.getText().toString();
-        System.out.println("FACEBOOK : " + facebook);
-        if (facebook != null && !facebook.isEmpty()) {
-
-
+        if (facebook != "") {
             boolean sucess = true;
             try {
                 getApplicationContext().getPackageManager().getPackageInfo("com.facebook.katana", 0);
@@ -158,6 +179,15 @@ public class DetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebook));
                 startActivity(intent);
             }
+        }
+    }
+
+    public void goToMail(View view) {
+        if (mail != "") {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri data = Uri.parse("mailto:?to=" + mail);
+            intent.setData(data);
+            startActivity(intent);
         }
     }
 }
