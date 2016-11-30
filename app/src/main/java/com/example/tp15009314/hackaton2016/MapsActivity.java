@@ -16,6 +16,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Double lat;
     private Double lon;
+    private String nom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent i = getIntent();
         lat = Double.parseDouble(i.getStringExtra("LAT"));
         lon = Double.parseDouble(i.getStringExtra("LON"));
+        nom = i.getStringExtra("NOM");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -48,7 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng point = new LatLng(lat, lon);
-        mMap.addMarker(new MarkerOptions().position(point).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
+        mMap.addMarker(new MarkerOptions().position(point).title(nom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 10));
     }
 }
