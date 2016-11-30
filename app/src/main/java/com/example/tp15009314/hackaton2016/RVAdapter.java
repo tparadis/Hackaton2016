@@ -1,6 +1,7 @@
 package com.example.tp15009314.hackaton2016;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.tp15009314.hackaton2016.R.id.map;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolder>{
 
@@ -40,6 +46,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.EvenementViewHolde
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
                 intent.putExtra("evt",new Evenement(evts.get(position)));
+                System.out.println("BLABLA");
+                Map<String,String> map = (Map<String, String>) evts.get(position).getFields();
+                HashMap<String, String> hashMap =
+                        (map instanceof HashMap)
+                                ? (HashMap) map
+                                : new HashMap<String, String>(map);
+                System.out.println(hashMap);
+                intent.putExtra("map", hashMap);
                 v.getContext().startActivity(intent);
             }
         });

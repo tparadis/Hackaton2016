@@ -16,10 +16,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
     private Evenement evt;
+    HashMap<String, String> fields;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         Bundle extra = getIntent().getExtras();
         evt =  extra.getParcelable("evt");
+        fields = (HashMap<String, String>) extra.getSerializable("map");
+        System.out.println(fields.toString());
 
         TextView title = (TextView) findViewById(R.id.event_titre);
         title.setText(evt.getTitre());
@@ -45,6 +50,12 @@ public class DetailsActivity extends AppCompatActivity {
             tel.setText("Phone : " + evt.getTelephone());
             tel.setTextColor(Color.BLUE);
         }
+
+       // System.out.println("INTERNET : " + evt.getInternet());
+        TextView internet = (TextView) findViewById(R.id.event_internet);
+        internet.setText(evt.getInternet());
+        internet.setTextColor(Color.BLUE);
+
         ImageView img = (ImageView) findViewById(R.id.event_image);
         Glide.with(this).load(evt.getImage()).override(500, 500).into(img);
 
@@ -72,17 +83,27 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-    public void launchMap(View view){
+    public void launchMap(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("LAT", evt.getLat());
         intent.putExtra("LON", evt.getLon());
+        intent.putExtra("NOM", evt.getTitre());
         startActivityForResult(intent, 1);
     }
 
     public void callNumber(View view) {
         String number = evt.getTelephone();
-        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-        callIntent.setData(Uri.parse("tel:"+number));
-        startActivity(callIntent);
+        if(number != null) {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + number));
+            startActivity(callIntent);
+        }
+    }
+
+    public void goToTheInternet(View view) {
+        String internet = evt.getInternet();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(internet));
+        startActivity(intent);
     }
 }

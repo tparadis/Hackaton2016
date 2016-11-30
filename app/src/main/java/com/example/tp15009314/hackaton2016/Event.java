@@ -51,6 +51,9 @@ public class Event {
     public String getImage(){
         return (String) fields.get("image");
     }
+    public String getInternet(){
+        return (String) fields.get("lien");
+    }
     public String getLat() { return (String) fields.get("0"); }
     public String getLon() { return (String) fields.get("1"); }
 

@@ -24,6 +24,7 @@ public class Evenement implements Parcelable
     String image;
     String lat;
     String lon;
+    String internet;
 
    public Evenement(Event event) {
         this.titre = event.getTitre();
@@ -38,6 +39,7 @@ public class Evenement implements Parcelable
         this.image = event.getImage();
         this.lat = event.getLat();
         this.lon = event.getLon();
+        this.internet = event.getInternet();
     }
 
     protected Evenement(Parcel in) {
@@ -53,6 +55,7 @@ public class Evenement implements Parcelable
         image = in.readString();
         lat = in.readString();
         lon = in.readString();
+        internet = in.readString();
     }
 
     public static final Creator<Evenement> CREATOR = new Creator<Evenement>() {
@@ -86,6 +89,7 @@ public class Evenement implements Parcelable
         dest.writeString(image);
         dest.writeString(lat);
         dest.writeString(lon);
+        dest.writeString(internet);
     }
 
     public String getTitre() {
@@ -126,6 +130,10 @@ public class Evenement implements Parcelable
 
     public String getImage() {
         return image;
+    }
+
+    public String getInternet() {
+        return internet;
     }
 
     public String getLat() { return  lat; }
