@@ -5,18 +5,24 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.Image;
+import android.media.Rating;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +33,7 @@ import static android.R.attr.start;
 import static android.R.attr.value;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.example.tp15009314.hackaton2016.R.id.email;
+import static com.example.tp15009314.hackaton2016.R.id.ratingBar;
 import static com.example.tp15009314.hackaton2016.R.id.textView;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -35,6 +42,8 @@ public class DetailsActivity extends AppCompatActivity {
     HashMap<String, String> fields;
     private String facebook;
     private String mail;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,26 +84,30 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView img = (ImageView) findViewById(R.id.event_image);
         Glide.with(this).load(evt.getImage()).override(500, 500).into(img);
 
-/*
-        ArrayList<String> listItem = new ArrayList<>();
-        listItem.add("yolo");
-        listItem.add("blabla");
-        ListView listView = (ListView) findViewById(R.id.event_listView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.donnees, R.id.donnee, listItem);
-        listView.setAdapter(adapter);
+        final RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar) ;
+        ratingBar.setRating(Float.parseFloat(fields.get("note")));
 
-        // give adapter to ListView UI element to render
+        ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                   rating(ratingBar);
 
-        /*TextView textView1 = new TextView(this.getApplicationContext());
-        textView1.setText("Blabla");
+                    v.setPressed(false);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
 
-        TextView textView2 = new TextView(this.getApplicationContext());
-        textView2.setText("YOLO");
-        ListView listView = (ListView) findViewById(R.id.event_listView);
-        listView.addView(textView1);
-        listView.addView(textView2);
-        */
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
 
+
+
+
+                return true;
+            }});
 
     }
 
@@ -189,5 +202,27 @@ public class DetailsActivity extends AppCompatActivity {
             intent.setData(data);
             startActivity(intent);
         }
+    }
+
+    public void rating (RatingBar rate) {
+        System.out.println("RATING TROLOL");
+        float note = Float.parseFloat(fields.get("" +
+                ""));
+        int nbVotes= Integer.parseInt(fields.get("nbVotes"));
+        float myRate = rate.getRating();
+System.out.println(note);
+        note = (note + myRate);
+        if(nbVotes == 0) {
+            System.out.println("aa");
+            rate.setRating(0);
+        }
+        else {
+            System.out.println("bb");
+            float finalNote = (note / nbVotes);
+            rate.setRating(finalNote);
+        }
+        myRef.child(fields.get("id")).child("fields").child("note").setValue(Float.toString(note));
+        myRef.child(fields.get("id")).child("fields").child("nbVotes").setValue(Integer.toString(++nbVotes));
+
     }
 }
